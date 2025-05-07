@@ -1,6 +1,8 @@
 from rag import ask_question
 from utility import *
 import streamlit as st
+import os
+os.environ["STREAMLIT_SERVER_ENABLE_STATIC_SERVING"] = "true"
 def main():
     # Title for the app
     st.title('Query for Youtube Session')

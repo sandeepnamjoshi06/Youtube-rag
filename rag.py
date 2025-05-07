@@ -31,7 +31,7 @@ hf = HuggingFaceEmbeddings(
 def ask_question(question:str):
     embeddings=hf
     docsearch = PineconeVectorStore.from_existing_index("youtube", embeddings)
-    vec_retriever = docsearch.as_retriever(search_type="mmr", search_kwargs={"k": 3})
+    vec_retriever = docsearch.as_retriever(search_type="mmr", search_kwargs={"k": 3,'lambda_mult': 0.6})
     with open("bm25_retriever.pkl", "rb") as f:
          keyword_retriever = pickle.load(f)
     retriever=EnsembleRetriever(retrievers=[vec_retriever,keyword_retriever],weights=[0.3,0.7])
@@ -44,19 +44,3 @@ def ask_question(question:str):
     response=main_chain.invoke(question)
     print("response-----",response)
     return response
-
-
-
-
-
-
-
-
-
-
-
-
-llm = ChatGroq(
-    temperature=0,
-    model_name="llama3-70b-8192",
-)
